@@ -1,0 +1,107 @@
+#codeguard_signup {
+  background: url("https://www.codeguard.com/images/shield.png") no-repeat scroll 8px 20px #EEEEEE;
+  border-color: #DFDFDF;
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: 0 1px 0 #FFFFFF inset;
+  display: block;
+  padding: 0px 0px 15px 80px;
+}
+
+#codeguard_inline_error {
+  display: none;
+  font-weight: bold;
+  width: 80%;
+  background-color: #FFEBE8;
+  margin: 4px;
+  padding: 4px;
+  border-color: #CC0000;
+  border-radius: 3px 3px 3px 3px;
+  border-style: solid;
+  border-width: 1px;
+}
+
+#codeguard_hidden_error {
+  display: none;
+}
+
+#codeguard_admin_section {
+  margin: 0 0 20px 0;
+  padding: 5px 15px;
+  background-color: #EEEEEE;
+  border-color: #DFDFDF;
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: 0 1px 0 #FFFFFF inset;
+  display: block;
+}
+
+#codeguard_admin_section h2 {
+  color: #92D400;
+}
+
+#codeguard_admin_section p {
+  font-size: 12pt;
+  font-weight: normal;
+}
+
+#toplevel_page_codeguard-admin-menu img {
+  height: 18px;
+}
+
+.codeguard_widget_section h2 {
+  size: 18px;
+  color: #464646;
+  border-bottom-color: #DFDFDF;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.codeguard_widget_section ul {
+  width: 50%; 
+  float: left; 
+  padding-left: 0; 
+  margin-left: 0;
+  white-space:nowrap;
+}
+
+.codeguard_widget_section ul li {
+  font-size: 14px;
+  float: left; 
+  width: 50%; 
+}
+
+.codeguard_widget_section ul li.first_col { 
+  clear: left; 
+}
+
+input.button-primary.codeguard-button, 
+button.button-primary.codeguard-button, 
+a.button-primary.codeguard-button {
+  background: #8dc63f url(../images/codeguard-grad.png) repeat-x scroll left top;
+  border-color: #678f30;
+}
+input.button-primary.codeguard-button:hover, 
+button.button-primary.codeguard-button:hover, 
+a.button-primary.codeguard-button:hover {
+  border-color: #336600;
+  
+}
+input.button-primary.codeguard-button:active, 
+button.button-primary.codeguard-button:active, 
+a.button-primary.codeguard-button:active {
+  border-color: #336600;
+  background: #a8ec4b url(../images/codeguard-grad-active.png) repeat-x scroll left top;
+  
+}
+.codeguard-submit-div {
+  float: left;
+  margin: 0 10px 0 0;
+}
+
+img.codeguard-cgshield {
+  position: relative;
+  top: 5px;
+  margin: 0 5px 0 0;
+}
+#cgadmin-content h2 {
+  border-bottom: 1px solid #ddd;
+}
