@@ -36,7 +36,7 @@ These security features protect the confidentiality of your data through both ve
 CodeGuard offers the most reliable backup on the market - 99.999999999% reliable. We achieve this by replicating your data in secure locations across the world - again and again and again.  Amazon Web Services - Simple Storage (S3) and Reduced Redundancy Storage (RRS) are used to deliver these incredible results.
 <br><br>
 **Receive ChangeAlerts when content on your site changes**<br>
-When CodeGuard takes the daily backup, it compares what is on your website with the last version of your website stored CodeGuard's system. If any changes are found, CodeGuard emails you with the details!
+When CodeGuard takes the daily backup, it compares what is on your website with the last version of your website stored CodeGuards system. If any changes are found, CodeGuard emails you with the details!
 <br><br>
 **Get UNDO Power for when anything goes wrong**<br>
 CodeGuard helps should anything go wrong - deleted files are now recoverable, overwritten files are now obtainable, and if your site is hacked, the malware is easily removable. All of this with nothing to install.
