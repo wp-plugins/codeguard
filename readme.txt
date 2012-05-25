@@ -27,26 +27,30 @@ The CodeGuard WordPress plugin uses strong cryptographic protocols, including RS
 These security features protect the confidentiality of your data through both verification and encryption.
 
 * Actively verifies that a backup request originated from an officially authorized CodeGuard.com server
-* Encrypts all data using CodeGuardâ€™s 2048-bit RSA public key such that only officially authorized CodeGuard.com servers can read your data.
+* Encrypts all data using CodeGuard's 2048-bit RSA public key such that only officially authorized CodeGuard.com servers can read your data.
 * Each WordPress plugin generates a unique RSA key pair for strong per-site security.
 * Uses a RC4 stream cipher as implemented in the the OpenSSL library, which is the same library used to secure SSL websites hosted on the Apache Web Server.
 
 = What does CodeGuard offer? =
-**Automated Daily Backups that never let you down**<br>
+**Automated Daily Backups that never let you down**
+
 CodeGuard offers the most reliable backup on the market - 99.999999999% reliable. We achieve this by replicating your data in secure locations across the world - again and again and again.  Amazon Web Services - Simple Storage (S3) and Reduced Redundancy Storage (RRS) are used to deliver these incredible results.
-<br><br>
-**Receive ChangeAlerts when content on your site changes**<br>
-When CodeGuard takes the daily backup, it compares what is on your website with the last version of your website stored CodeGuards system. If any changes are found, CodeGuard emails you with the details!
-<br><br>
-**Get UNDO Power for when anything goes wrong**<br>
+
+**Receive ChangeAlerts when content on your site changes**
+
+When CodeGuard takes the daily backup, it compares what is on your website with the last version of your website stored CodeGuard's system. If any changes are found, CodeGuard emails you with the details!
+
+**Get UNDO Power for when anything goes wrong**
+
 CodeGuard helps should anything go wrong - deleted files are now recoverable, overwritten files are now obtainable, and if your site is hacked, the malware is easily removable. All of this with nothing to install.
-<br><br>
-**Easily Scan for Malware and Google Blacklisting**<br>
+
+**Easily Scan for Malware and Google Blacklisting**
+
 You can rest safe knowing that CodeGuard is also looking out for malware. We interact with Google on a regular basis to make sure your site is neither blacklisted nor infected.
-<br><br>
-**Source Code and Database Differential Storage**<br>
+
+**Source Code and Database Differential Storage**
+
 CodeGuard seamlessly backs up your source and databases. And it does it in an elegant way that saves you space and makes it easy to see changes between each backup/version.
-<br><br>
 
 == Installation == 
 
