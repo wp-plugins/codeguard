@@ -221,6 +221,12 @@ class CodeGuard_Exporter {
       , 'runtime' => time() - $start_at);
   }
 
+  public function get_file_attributes_with_sha1 ($filename) {
+    $result = $this->get_file_attributes($filename);
+    $result['sha1'] = sha1_file($filename);
+    return $result;
+  }
+
   private function get_file_attributes( $filename ) {
     $fs = filesize("$filename");
     $lm = filemtime("$filename");

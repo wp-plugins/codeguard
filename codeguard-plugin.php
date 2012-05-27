@@ -4,8 +4,8 @@
    Plugin URI: https://codeguard.com/wordpress
    Author: The CodeGuard Team
    Description: Get a time machine for your website!  CodeGuard will monitor your site for changes.  When a change is detected, we will alert you and take a new backup of your database and site content.
-   Version: 0.32
-*/
+   Version: 0.34
+ */
 
 /*
 This program is free software; you can redistribute it and/or modify 
@@ -20,7 +20,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License 
 along with this program; if not, write to the Free Software 
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA 
-*/
+ */
 
 if ( ! defined('ABSPATH') ) { 
   die('Please do not load this file directly.');
@@ -35,7 +35,7 @@ class CodeGuard_WP_Plugin {
   private $cg_client = null;
 
   const HTTP_REQUEST_TIMEOUT = 45;
-  const PLUGIN_VERSION = 0.32;
+  const PLUGIN_VERSION = 0.34;
 
   function __construct() {
     // Check for PHP > 5.2
@@ -54,11 +54,11 @@ class CodeGuard_WP_Plugin {
 
         // Test requirements for client and exporter
         if( !CodeGuard_Exporter::test_requirements() 
-            || !CodeGuard_Importer::test_requirements()
-            || !CodeGuard_WP_Plugin::test_requirements()) {
-          add_action('admin_notices', array($this,'missing_requirements_error_notice'));
-          return; 
-        }
+          || !CodeGuard_Importer::test_requirements()
+          || !CodeGuard_WP_Plugin::test_requirements()) {
+            add_action('admin_notices', array($this,'missing_requirements_error_notice'));
+            return; 
+          }
 
         $this->cg_client = new CodeGuard_Client($this->_plugin_api_key);
       }
@@ -95,6 +95,20 @@ class CodeGuard_WP_Plugin {
         $this->configure_codeguard_client();
         if ($this->has_valid_codeguard_tokens()) {
           $this->create_codeguard_website_container();
+        }
+      } else if ( !empty($_POST['codeguard-tokens-combined'] ) ) {
+        $combined_token = $_POST['codeguard-tokens-combined'];
+
+        if ( strlen( $combined_token ) == 80 ) {
+          $access_token = substr( $combined_token, 0, 40 );
+          $access_secret = substr( $combined_token, 40, 40 );
+          $this->set_codeguard_api_credentials( $access_token, $access_secret );
+          $this->configure_codeguard_client();
+          if ($this->has_valid_codeguard_tokens()) {
+            $this->create_codeguard_website_container();
+          }
+        } else {
+          $this->set_ui_error_message('invalid_credentials');
         }
       } else if (! (empty($_POST['codeguard-add-website']) ) ) {
         $this->configure_codeguard_client();
@@ -195,11 +209,11 @@ class CodeGuard_WP_Plugin {
     $parameters_json = $this->get_verified_request_value('what', $cg_exporter);
     unset($to_return);
     if (false != $parameters_json) {
-      
+
       $parameters_json = trim($parameters_json);
-      
+
       if("" != $parameters_json 
-            && ("[" == $parameters_json[0] || "{" == $parameters_json[0]) 
+        && ("[" == $parameters_json[0] || "{" == $parameters_json[0]) 
       ) 
       {
         $to_return = json_decode($parameters_json);
@@ -252,33 +266,64 @@ class CodeGuard_WP_Plugin {
         $this->send_plugin_error("Unable to decrypt the parameter string.");
         return;
       }
-      
-      if("get_tables" == $verified_request) {
+
+      // Process the requested web service call
+      switch ($verified_request) {
+      case "get_tables":
         $data = $cg_exporter->get_tables_list();
-      } else if("phpinfo" == $verified_request) {
+        break;
+      case "phpinfo":
         $data = $cg_exporter->phpinfo_data();
-      } else if("get_wp_statistics" == $verified_request) {
+        break;
+      case "get_wp_statistics":
         $data = $cg_exporter->get_wp_statistics();
-      } else if("get_table_record_count" == $verified_request) {
+        break;
+      case "get_table_record_count":
         $data = Array("count" => $cg_exporter->get_table_record_count($params->table_name));
-      } else if ("echotest" == $verified_request) {
+        break;
+      case "echotest":
         $data = Array("echo" => $params[0]);
-      } else if ("execute_sql_file" == $verified_request) {
-        $data = $cg_importer->execute_sql_file($params->file_path);
-      } else if ("change_file_permissions" == $verified_request) {
+        break;
+      case "execute_sql_file":
+        $data = $cg_importer->execute_sql_file($params->file_path, $params->expected_sha1_hash);
+        break;
+      case "change_file_permissions":
         $data = $cg_importer->change_file_permissions($params->file_path, $params->permissions);
-      } else if ("put_file_data" == $verified_request) {
+        break;
+      case "get_temp_file_name":
+        $data = $cg_importer->get_temp_file_name($params->prefix);
+        break;
+      case "get_file_attributes":
+        if (file_exists($params->file_path)) {
+          $data = $cg_exporter->get_file_attributes_with_sha1($params->file_path);
+        }
+        break;
+      case "sha1_file":
+        if (file_exists($params->file_path)) {
+          $data = sha1_file($params->file_path);
+        }
+        break;
+      case "write_file_data":
+        $data = "Hi";
+        $data = $cg_importer->write_file_data($params->file_path, $params->file_data, $params->append);
+        break;
+      case "put_file_data":
         $data = $cg_importer->put_file_data($params->file_path, $params->file_data);
-      } else if ("delete_file" == $verified_request) {
+        break;
+      case "delete_file":
         $data = $cg_importer->delete_file($params->file_path);
-      } else if ("get_table_data" == $verified_request) {
+        break;
+      case "copy_file":
+        $data = $cg_importer->copy_file($params->old_name, $params->new_name);
+        break;
+      case "get_table_data":
         // The data request is a little different, we will assign the success and data items here
         $standard_response = false;
         $tbl_stats = $cg_exporter->get_table_data($params->table_name, $params->limit_start, $params->limit_end);
         $response["success"] = (false != $tbl_stats);
         $response["data"] = $tbl_stats;
-        //} // end if verified
-      } else if ("get_file_list" == $verified_request ) {
+        break;
+      case "get_file_list":
         // The data request is a little different, we will assign the success and data items here
         $standard_response = false;
         $verified_bundle_size = $params[0];
@@ -291,8 +336,8 @@ class CodeGuard_WP_Plugin {
 
         $response["success"] = (is_array($file_list) && $file_list['error'] == false);
         $response["data"] = $file_list;
-      } else if ("get_file_data" == $verified_request) {
-
+        break;
+      case "get_file_data":
         // The data request is a little different, we will assign the success and data items here
         $standard_response = false;
         $verified_file_name = $params[0];
@@ -304,10 +349,11 @@ class CodeGuard_WP_Plugin {
           $response["success"] = (is_array($file_stats) && $file_stats['error'] == false);
           $response["data"] = $file_stats;
         } // end if verified
-
-      } else {
+        break;
+      default:
         $data = Array("public_key" => $this->get_codeguard_plugin_public_key_or_make_it());
-      } // end possible routes
+      } // end switch / possible routes
+
     } // end route_codeguard_request
 
     if($standard_response && isset($data)) {
@@ -585,16 +631,16 @@ class CodeGuard_WP_Plugin {
     $key_pairs = openssl_pkey_new(array('private_key_bits' => 2048));
 
     if ($key_pairs) {
-        // Retrieve the private key into 
-        openssl_pkey_export($key_pairs, $private_key_contents);
+      // Retrieve the private key into 
+      openssl_pkey_export($key_pairs, $private_key_contents);
 
-        // Get public key
-        $key_details = openssl_pkey_get_details($key_pairs);
-        $public_key_contents = $key_details["key"];
+      // Get public key
+      $key_details = openssl_pkey_get_details($key_pairs);
+      $public_key_contents = $key_details["key"];
 
-        CodeGuard_WP_Plugin::set_codeguard_plugin_keys($public_key_contents, $private_key_contents);
+      CodeGuard_WP_Plugin::set_codeguard_plugin_keys($public_key_contents, $private_key_contents);
     } else {
-        throw new Exception('Plugin was unable to generate an RSA security key that is needed for secure communication with the CodeGuard.com backup service.');
+      throw new Exception('Plugin was unable to generate an RSA security key that is needed for secure communication with the CodeGuard.com backup service.');
     }
     return;
   } // end generate_plugin_keys
@@ -817,7 +863,7 @@ class CodeGuard_WP_Plugin {
     } catch (Exception $e) {
       //Do nothing
     }
-    */
+     */
     echo "\n" . json_encode($error_array) . "\n";
   }
 
@@ -831,10 +877,10 @@ class CodeGuard_WP_Plugin {
         '#^.*<body>(.*)</body>.*$#ms', '#<h2>PHP License</h2>.*$#ms',
         '#<h1>Configuration</h1>#',  "#\r?\n#", "#</(h1|h2|h3|tr)>#", '# +<#',
         "#[ \t]+#", '#&nbsp;#', '#  +#', '# class=".*?"#', '%&#039;%',
-        '#<tr>(?:.*?)" src="(?:.*?)=(.*?)" alt="PHP Logo" /></a><h1>PHP Version (.*?)</h1>(?:\n+?)</td></tr>#',
-        '#<h1><a href="(?:.*?)\?=(.*?)">PHP Credits</a></h1>#',
-        '#<tr>(?:.*?)" src="(?:.*?)=(.*?)"(?:.*?)Zend Engine (.*?),(?:.*?)</tr>#',
-        "# +#", '#<tr>#', '#</tr>#'),
+    '#<tr>(?:.*?)" src="(?:.*?)=(.*?)" alt="PHP Logo" /></a><h1>PHP Version (.*?)</h1>(?:\n+?)</td></tr>#',
+      '#<h1><a href="(?:.*?)\?=(.*?)">PHP Credits</a></h1>#',
+      '#<tr>(?:.*?)" src="(?:.*?)=(.*?)"(?:.*?)Zend Engine (.*?),(?:.*?)</tr>#',
+      "# +#", '#<tr>#', '#</tr>#'),
       array(
         '$1', '', '', '', '</$1>' . "\n", '<', ' ', ' ', ' ', '', ' ',
         '<h2>PHP Configuration</h2>'."\n".'<tr><td>PHP Version</td><td>$2</td></tr>'.

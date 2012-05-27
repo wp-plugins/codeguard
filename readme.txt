@@ -85,6 +85,12 @@ You can see our full FAQ at [support.codeguard.com](http://support.codeguard.com
 
 == Changelog == 
 
+= 0.34 =
+* Enhancements to restore process
+
+= 0.33 =
+* Developement / internal release
+
 = 0.32 =
 * Initial release
 

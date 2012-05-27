@@ -30,7 +30,7 @@ if ($this->has_website_id() ) {
 ?>
 
       <h2>What is CodeGuard?</h2>
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.1em; color:#323232;">CodeGuard is an automatic daily backup service for your WordPress blog. After creating your CodeGuard account and adding your API key and secret below, CodeGuard will begin backing up your WordPress site.  All of your posts, themes, comments, and everything else associated with your blog will be backed up and securely stored with CodeGuard.</p>
+      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.1em; color:#323232;">CodeGuard is an automatic daily backup service for your WordPress blog. After creating your CodeGuard account and adding your API key below, CodeGuard will begin backing up your WordPress site.  All of your posts, themes, comments, and everything else associated with your blog will be backed up and securely stored with CodeGuard.</p>
       <p class="submit" style="text-align:center;"><a href="https://www.codeguard.com/wordpress" style="font-size: 21px !important;padding: 3px 40px;" class="button-primary codeguard-button" target="_blank">Get Started Now!</a></p>
 
       <h2>How does it work?</h2>
@@ -56,13 +56,11 @@ if ($this->has_website_id() ) {
       </table>
 
       <h2>CodeGuard API Key</h2>
-      <p>Enter your CodeGuard key and secret below. Not sure what these are? <a target="_blank" href="https://www.codeguard.com/wordpress">Click here to find your CodeGuard key and secret.</a></p>
+      <p>Enter your CodeGuard key below. Not sure what these are? <a target="_blank" href="https://www.codeguard.com/wordpress">Click here to find your CodeGuard key.</a></p>
 
       <form action="" method="post" id="codeguard-tokens-form" style="">
-        <h3><label for="codeguard-tokens-key">Key<label></h3>
-        <p><input id="codeguard-tokens-key" name="codeguard-tokens-key" type="text" size="40" value="<?php echo $this->get_codeguard_api_access_token(); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /></p>
-        <h3><label for="codeguard-tokens-secret">Secret</label></h3>
-        <p><input id="codeguard-tokens-secret" name="codeguard-tokens-secret" type="text" size="40" value="<?php echo $this-> get_codeguard_api_access_secret(); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;" /></p>
+        <h3><label for="codeguard-tokens-combined">Key<label></h3>
+        <p><textarea id="codeguard-tokens-combined" name="codeguard-tokens-combined" cols="45" rows="2" value="<?php echo $this->get_codeguard_api_access_token(); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;"></textarea></p>
         <p class="submit"><input type="submit" name="submit" value="Update" /></p>
       </form>
 <?php

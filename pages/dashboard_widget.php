@@ -21,17 +21,7 @@ if(isset($site_stats->last_backup_time)) {
         <p class="submit"><input type="submit" id="codeguard_login_to_dashboard" name="codeguard_login_to_dashboard" class="button-primary codeguard-button" value="Login to CodeGuard" /></p>
       </form>
     </div>
-<?php
-  if(isset($site_stats->last_backup_time) && isset($site_stats->parent_stats->last_backup_time)) {
-?>
-    <div class="codeguard-submit-div">
-      <form action="" method="post" id="codeguard-initiate-backup-form">
-        <p class="submit"><input type="submit" id="codeguard_initiate_new_backup" name="codeguard_initiate_new_backup" class="button-primary codeguard-button" value="Start new backup" /></p>
-      </form>
-    </div>
-<?php
-  }
-?>
+
     <p style="clear:both;"></p>
     <h2>Database Backup</h2>
     <p>This is a backup of your database. It covers all your content: posts, pages, comments, and users.</p>
