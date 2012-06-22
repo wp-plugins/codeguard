@@ -123,27 +123,6 @@ class CodeGuard_Importer {
     return $to_return;
   } // end write_file_data
 
-  
-
-  // Deprecated....
-  public function put_file_data($file_path, $file_data) {
-
-    // Could create the directory structure if it doesn't exist
-    /*
-    $file_directory = dirname($file_path);
-    if(!is_dir($file_directory)) {
-      mkdir($file_directory, 0755);
-    }
-    */
-
-    $file_size = file_put_contents($file_path, $file_data, FILE_APPEND | LOCK_EX);
-    if ($file_size == false) {
-      return false;
-    } else {
-      return Array("file_path" => $file_path, "file_size" => $file_size);
-    }
-  } // end put_file_data
-
   public function delete_file($file_path) {
     $result = false;
     if (!file_exists($file_path) || unlink($file_path)) {
@@ -165,6 +144,32 @@ class CodeGuard_Importer {
     $result = false;
     if (chmod($file_path, $permissions)) {
       $result = Array("file_path" => $file_path, "file_permissions" => fileperms($file_path));
+    }
+    return $result;
+  }
+  
+  public function create_directory($path, $permissions) {
+    $result = false;
+    if (mkdir($path, $permissions)) {
+      $result = Array("path" => $path, "directory_permissions" => fileperms($path));
+    }
+    return $result;
+  }
+  
+  public function delete_directory($path) {
+    $result = false;
+    $path = realpath($path);
+    if (!is_dir($path) || rmdir($path)) {
+      $result = Array("path" => $path);
+    }
+    return $result;
+  }
+
+  public function change_directory_permissions($path, $permissions) {
+    $result = false;
+    $path = realpath($path);
+    if (chmod($path, $permissions)) {
+      $result = Array("path" => $path, "directory_permissions" => fileperms($path));
     }
     return $result;
   }

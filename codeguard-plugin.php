@@ -4,7 +4,7 @@
    Plugin URI: https://codeguard.com/wordpress
    Author: The CodeGuard Team
    Description: Get a time machine for your website!  CodeGuard will monitor your site for changes.  When a change is detected, we will alert you and take a new backup of your database and site content.
-   Version: 0.34
+   Version: 0.35
  */
 
 /*
@@ -35,7 +35,7 @@ class CodeGuard_WP_Plugin {
   private $cg_client = null;
 
   const HTTP_REQUEST_TIMEOUT = 45;
-  const PLUGIN_VERSION = 0.34;
+  const PLUGIN_VERSION = 0.35;
 
   function __construct() {
     // Check for PHP > 5.2
@@ -307,14 +307,20 @@ class CodeGuard_WP_Plugin {
         $data = "Hi";
         $data = $cg_importer->write_file_data($params->file_path, $params->file_data, $params->append);
         break;
-      case "put_file_data":
-        $data = $cg_importer->put_file_data($params->file_path, $params->file_data);
-        break;
       case "delete_file":
         $data = $cg_importer->delete_file($params->file_path);
         break;
       case "copy_file":
         $data = $cg_importer->copy_file($params->old_name, $params->new_name);
+        break;
+      case "create_directory":
+        $data = $cg_importer->create_directory($params->path, $params->permissions);
+        break;
+      case "delete_directory":
+        $data = $cg_importer->delete_directory($params->path);
+        break;
+      case "change_directory_permissions":
+        $data = $cg_importer->change_directory_permissions($params->path, $params->permissions);
         break;
       case "get_table_data":
         // The data request is a little different, we will assign the success and data items here

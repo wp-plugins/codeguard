@@ -16,7 +16,7 @@ In addition to taking automatic daily backups, CodeGuard does a comparison betwe
 
 CodeGuard will send you a ChangeAlert email any time that it finds your files have changed. This way, you can stay on top of everything that is happening to your website.
 
-Should you ever need an old file, or if you overwrite a file, delete something, or just mess up your site - don't worry - CodeGuard has you covered with easy
+Should you ever need an old file, or if you overwrite a file, delete something, or just mess up your site - don't worry - CodeGuard has you covered with one-click undo power.
 
 http://www.youtube.com/watch?v=OLrERaRblsQ
 Can't see the video? You can find it [here](http://www.youtube.com/watch?v=OLrERaRblsQ).
@@ -84,6 +84,9 @@ This section describes how to install and configure the plugin.
 You can see our full FAQ at [support.codeguard.com](http://support.codeguard.com/customer/portal/topics/216401-wordpress/articles)
 
 == Changelog == 
+
+= 0.35 =
+* More enhancements to restore process
 
 = 0.34 =
 * Enhancements to restore process

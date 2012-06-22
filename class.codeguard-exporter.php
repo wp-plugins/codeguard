@@ -182,9 +182,13 @@ class CodeGuard_Exporter {
 
         $filename = $path . $filename;
 
+        // Need to log
+        if(realpath($filename) == false)
+          continue;
+
         if (is_link($filename)) {
           $filename = realpath($filename);
-          $file_list[] = $this->get_file_attributes( $file_list );       
+          $file_list[] = $this->get_file_attributes( $filename );       
         } else if (is_dir($filename)) {
           if (substr($filename, -1) !== DIRECTORY_SEPARATORATOR)
             $filename .= DIRECTORY_SEPARATOR;
@@ -192,6 +196,9 @@ class CodeGuard_Exporter {
           // Skip if the item is already in the queue or has already been done
           if (array_key_exists($filename, $queue) || array_key_exists($filename, $done))
             continue;
+
+          // Add directory to list
+          $file_list[] = $this->get_file_attributes( realpath($filename) );       
 
           // Add dir to the queue
           $queue[$filename] = null;
@@ -228,19 +235,26 @@ class CodeGuard_Exporter {
   }
 
   private function get_file_attributes( $filename ) {
+
     $fs = filesize("$filename");
     $lm = filemtime("$filename");
     $perms = fileperms("$filename");
     $user = fileowner("$filename");
     $group = filegroup("$filename");
-    $is_symlink = is_link($filename);
-    return array('path' => "$filename"
+    $is_symlink = is_link("$filename");
+    $is_dir = is_dir("$filename");
+
+    $file_attributes = array(
+      'path' => $filename
       ,'size' => $fs
       ,'perms' => $perms
       ,'user' => $user
       ,'group' => $group
       ,'symlink' => $is_symlink
-      ,'mtime' => $lm);
+      ,'dir' => $is_dir
+      ,'mtime' => $lm
+    );
+    return $file_attributes;
   }
 
   private function get_wp_root_path() {
