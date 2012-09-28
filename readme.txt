@@ -2,7 +2,7 @@
 Contributors: jmanuzak
 Tags: backup, website backup, security, database backup, database, malware, google safebrowsing
 Requires at least: 3.2
-Tested up to: 3.3
+Tested up to: 3.4
 Stable tag: trunk
 License: GPLv2
 
@@ -84,6 +84,10 @@ This section describes how to install and configure the plugin.
 You can see our full FAQ at [support.codeguard.com](http://support.codeguard.com/customer/portal/topics/216401-wordpress/articles)
 
 == Changelog == 
+
+= 0.36 =
+* New and improved user interface
+* Updated view logic to only load stylesheet and javascript when needed
 
 = 0.35 =
 * More enhancements to restore process

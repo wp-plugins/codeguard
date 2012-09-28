@@ -6,69 +6,102 @@ if(!defined("ABSPATH"))
 <?php
   if(!$this->on_admin_page()) {
 ?>
-  <img src="<?php echo $this->codeguard_plugin_image_url(); ?>cglogo_small_nav.png" />
-  <br/>
+   <div class="cg_wpp_header">
+      <a href="http://www.codeguard.com/"><img src="https://www.codeguard.com/images/cg_logo_white.png" /></a>
+   </div>
 <?php
   }
 ?>
+  <div class="cg_wpp_dashboard">
+    <div class="wrap_left_stuff">
+      <h3>Plugin Dashboard</h3>
+      <a href="javascript:;" class="cg_login_to_dashboard"><img id="cg_wpp_visit" src="https://www.codeguard.com/images/btn_cgwpp_visit.png" /></a>
+    </div>
+  </div>
   <div id="codeguard_inline_error"></div>
   <div class="codeguard_widget_section">
 <?php
-if(isset($site_stats->last_backup_time)) {
+if(isset($site_stats->last_backup_time)) {                                                                                                              
 ?>
-    <div class="codeguard-submit-div">
-      <form>
-        <p class="submit"><input type="submit" id="codeguard_login_to_dashboard" name="codeguard_login_to_dashboard" class="button-primary codeguard-button" value="Login to CodeGuard" /></p>
-      </form>
+    <h4 id="special_h4">Last Backup:<h4>
+    <h1 class="cg_wpp_special_h1"><?php echo date('l\, F dS Y', strtotime($site_stats->last_backup_time)) ?> <span class="cg_wpp_time_span"> / <?php echo date(' h:i:s A', strtotime($site_stats->last_backup_time)) ?></span></h1>
+    <div class="cg_wpp_table">
+      <h4>Content:</h4>
+      <table>
+        <tr id="tr_top">
+          <td>Posts</td>
+          <td>Comments</td>
+          <td>Pages</td>
+          <td>Users</td>
+          <td>Categories</td>
+          <?php
+            if(isset($site_stats->parent_stats->site_size)) {
+          ?>
+            <td>Website Size</td>
+          <?php
+            }
+          ?>
+        </tr>
+        <tr>
+          <td><span><?php echo $site_stats->posts ?></span> Total</td>
+          <td><span><?php echo $site_stats->comments ?></span> Total</td>
+          <td><span><?php echo $site_stats->pages ?></span> Total</td>
+          <td><span><?php echo $site_stats->users ?></span> Total</td>
+          <td><span><?php echo $site_stats->categories ?></span> Total</td>
+          <?php
+            if(isset($site_stats->parent_stats->site_size)) {
+          ?>
+            <td><span><?php echo $site_stats->parent_stats->site_size ?></span> Total</td>
+          <?php
+            }
+          ?>
+        </tr>
+      </table>
+      <p class="cg_nospacer">This is a backup of all your WordPress content. It includes WordPress posts, comments, pages, images, uploads, core files, plugins, themes, the whole shebang.  By visiting the CodeGuard dashboard you will have access to all of this information and much more.  <a id="cg_wpp_a" href="javascript:;" class="cg_login_to_dashboard">Try logging in to see!</a>
+      </p>
     </div>
 
-    <p style="clear:both;"></p>
-    <h2>Database Backup</h2>
-    <p>This is a backup of your database. It covers all your content: posts, pages, comments, and users.</p>
-    <p style="font-size:14px;">Last Backup: <?php echo date('l\, F dS Y h:i:s A', strtotime($site_stats->last_backup_time)) ?></p>
-    <div class="table table_content">
-    <table width="100%">
-      <tr>
-      <td>Posts: <?php echo $site_stats->posts ?></td>
-      <td>Comments: <?php echo $site_stats->comments ?></td>
-      </tr><tr>
-      <td>Users: <?php echo $site_stats->users ?></td>
-      <td>Categories: <?php echo $site_stats->categories ?></td>
-      </tr><tr>
-      <td>Pages: <?php echo $site_stats->pages ?></td>
-      </tr>
-    </table>
+    <div class="cg_wpp_bottom_dashboard">
+      <div>
+        <p class="tiny_header">Website Backup</p>
+        <h2>We are content security made easy.</h2>
+        <p>CodeGuard offers the most reliable backup on the market with 99.99% reliability. We achieve this by replicating your data in secure locations across the world and backing up your site automatically.
+        </p>
+        <p>The <a href="javascript:;" class="cg_login_to_dashboard">CodeGuard dashboard</a> tells you exactly when your next backup will occur, how many files were <strong>added</strong>, <strong>changed</strong>, or <strong>deleted</strong> in your previous backups, and lays all of this information out in an easy to understand way.
+      </div>
+
+      <div>
+        <p class="tiny_header">Website Monitoring</p>
+        <h2>We stay ahead of the curve.</h2>
+        <p>Ever thought about how you'd find out about your site getting hacked? If your site is hacked, it could be days or weeks before you even know about it.  CodeGuard believes that you should be the first to know, and so our monitoring system diligently checks your site for changes.
+        </p>
+        <p>When CodeGuard performs the backup, it compares what is on your website with the last version of your website stored in our system. We call this a differential backup, which is unique to CodeGuard and much more efficient at storing your data than other services.  If any changes are found, CodeGuard emails you with the details!
+        </p>
+      </div>
+
+      <div>
+        <p class="tiny_header">Website Restore</p>
+        <h2>We can help you fix the problems.</h2>
+        <p>Should anything go wrong, CodeGuard is there to help.  Deleted files are now recoverable, overwritten files are now obtainable, and if your site is hacked, the malware is easily removable.
+        </p>
+        <p>After selecting which backup version you want restored CodeGuard gives you a few options to choose from.  You can perform a manual restore of your file content or database by requesting a zipped version of your backup, or perform a one-click automatic restore of your database and let us do the heavy-lifting.  You can also restore individual files as needed.  To perform a restore on your WordPress site login to the <a href="javascript:;" class="cg_login_to_dashboard">CodeGuard dashboard</a> and click the "Restore" tab.
+      </div>
     </div>
-    <p style="clear:both;"></p>
-    <h2>File Backup</h2>
-    <p>This is a backup of your physical files. It includes wordpress core files, plugins, themes, the whole shebang.<p>
 <?php
-  if(isset($site_stats->parent_stats) && isset($site_stats->parent_stats->site_size)) {
-?>
-    <p style="font-size:14px;">Last Backup: <?php echo date('l\, F dS Y h:i:s A', strtotime($site_stats->parent_stats->last_backup_time)) ?></p>
-     <table width="100%">
-      <tr>
-      <td>Size: <?php echo $site_stats->parent_stats->site_size ?></td>
-      </tr>
-    </table>
-    <ul>
-      <li style="first_col">
-    </ul>
-<?php 
-  } else {
-?>
-  <p><img src="https://codeguard.com/images/shield.green.png" style="height:24px;width:24px;"/>Don't worry, we're still working on your first backup. It should be done in a few hours.<p>
-<?php
-  }
 } else if ( isset($error_message) ) {
 ?>
   </ul>
-  <p style="font-weight:bold;"><img class="codeguard-cgshield" src="https://codeguard.com/images/shield.red.png" style="height:24px;width:24px;"/> <?php echo $error_message ?></p>
+  <h1 id="error">Oh no!  It seems an <span>error</span> has occurred</h1>
+  <p><?php echo $error_message ?></p>
 <?php
 } else {
 ?>
   </ul>
-  <p><img src="https://codeguard.com/images/shield.green.png" style="height:24px;width:24px;"/>Great job! CodeGuard is now performing your first backup. It should be done in a few hours.<p>
+  <h1 id="special_widget_h1">Congratulations!  You have <span>successfully</span> added your site to CodeGuard!</h1>
+  <p>CodeGuard is now performing your first backup.  To check on the status of your first backup you can <a href="javascript:;" class="cg_login_to_dashboard">login to CodeGuard</a> and see real-time progress updates.  There you can see the estimated time your backup will be completed and where it is in the backup process. <br /><br />
+  Depending on the size of your site this could take a couple of hours.  We thank you in advance for your 
+  patience, and are excited for you to start protecting your site!</p>
+  <a href="javascript:;" class="cg_login_to_dashboard" id="cg_wpp_button">Login to CodeGuard</a>
 <?php
 }
 ?>
@@ -81,13 +114,13 @@ var codeguard_dashboard_init = function() {
 	if(typeof(jQuery) == 'undefined') {
 		setTimeout("codeguard_dashboard_init()", 10);
 	} else {
-		jQuery(document).ready(function() {
-				jQuery('#codeguard_login_to_dashboard').click(function() {
-					window.location.href = "<?php echo $login_url ?>";
-					return false;
-					});
-				wp_codeguard.check_for_error_messages('#codeguard_hidden_error', '#codeguard_inline_error');
-				});
+      jQuery(document).ready(function() {
+        jQuery('body').on('click', '.cg_login_to_dashboard', function() {
+            window.location.href = "<?php echo $login_url ?>";
+            return false;
+            });
+        wp_codeguard.check_for_error_messages('#codeguard_hidden_error', '#codeguard_inline_error');
+      });
 	}
 };
 codeguard_dashboard_init();

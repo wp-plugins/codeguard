@@ -4,7 +4,7 @@
    Plugin URI: https://codeguard.com/wordpress
    Author: The CodeGuard Team
    Description: Get a time machine for your website!  CodeGuard will monitor your site for changes.  When a change is detected, we will alert you and take a new backup of your database and site content.
-   Version: 0.35
+   Version: 0.36
  */
 
 /*
@@ -35,7 +35,7 @@ class CodeGuard_WP_Plugin {
   private $cg_client = null;
 
   const HTTP_REQUEST_TIMEOUT = 45;
-  const PLUGIN_VERSION = 0.35;
+  const PLUGIN_VERSION = 0.36;
 
   function __construct() {
     // Check for PHP > 5.2
@@ -137,7 +137,7 @@ class CodeGuard_WP_Plugin {
           }
         } else {
           // Only show CodeGuard WP dashboard if there is a valid user and site
-          add_action('wp_dashboard_setup', array( $this, 'codeguard_dashboard_widgets') );
+          // add_action('wp_dashboard_setup', array( $this, 'codeguard_dashboard_widgets') );
         }
       }
     } else {
@@ -163,7 +163,7 @@ class CodeGuard_WP_Plugin {
 
   // Javascript init
   function init_scripts() {
-    if(file_exists(dirname(__FILE__) . '/scripts/script.js')) {
+    if(file_exists(dirname(__FILE__) . '/scripts/script.js') && is_admin()) {
       if(function_exists('plugins_url')) {
         wp_enqueue_script($this->plugin_name . '-script', plugins_url('/scripts/script.js', __FILE__), array('jquery'), '1.0', true);
       } else {
@@ -174,7 +174,7 @@ class CodeGuard_WP_Plugin {
 
   // CSS init
   function init_styles() {
-    if(file_exists(dirname(__FILE__) . '/styles/style.css')) {
+    if(file_exists(dirname(__FILE__) . '/styles/style.css') && is_admin()) {
       if(function_exists('plugins_url')) {
         wp_enqueue_style($this->plugin_name . '-stylesheet', plugins_url('/styles/style.css', __FILE__), array(), '1.0', 'all');
       } else {
@@ -800,11 +800,11 @@ class CodeGuard_WP_Plugin {
 
     if(!isset($login_url) || !isset($site_stats) ) {
       if(!isset($login_url)) {
-        $error_message = "We were unable to locate your CodeGuard user information. If you need help, check out <a href='http://support.codeguard.com/'>CodeGuard Support</a>.";
+        $error_message = "We were unable to locate your CodeGuard user information. If you need help, check out the <a href='http://support.codeguard.com/'>CodeGuard Support Center</a>.<br /><br />If you don't find any answers there, you could try the <a id='codeguard-plugin-reset' href='javascript:;'>CodeGuard Plugin Reset</a> as a last resort.";
       } else if(!isset($site_status)) {
-        $error_message = "We were unable to locate your backup. Did you remove your website from CodeGuard?  If you need help, check out <a href='http://support.codeguard.com/'>CodeGuard Support</a>.";
+        $error_message = "We were unable to locate your backup. Did you remove your website from CodeGuard?  If you need help, check out <a href='http://support.codeguard.com/'>CodeGuard Support</a>.<br /><br />If you don't find any answers there, you could try the <a id='codeguard-plugin-reset' href='javascript:;'>CodeGuard Plugin Reset</a> as a last resort.";
       } else {
-        $error_message = "Unable to reach the CodeGuard service, please try again later. If this problem persists, please contact support@codeguard.com";
+        $error_message = "Unable to reach the CodeGuard service, please try again later. If this problem persists, please contact support@codeguard.com. <br /><br />If you don't find any answers there, you could try the <a id='codeguard-plugin-reset' href='javascript:;'>CodeGuard Plugin Reset</a> as a last resort.";
       }
     }
     require "pages/dashboard_widget.php";

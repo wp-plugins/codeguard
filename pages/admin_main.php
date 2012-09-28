@@ -3,23 +3,24 @@ if(!defined("ABSPATH"))
   die(); 
 ?>
 <div class="wrap">
-    <img src="<?php echo $this->codeguard_plugin_image_url(); ?>cglogo_small_nav.png" />
+    <div class="cg_wpp_header">
+      <a href="http://www.codeguard.com/"><img src="https://www.codeguard.com/images/cg_logo_white.png" /></a>
+    </div>
     <div id="codeguard_inline_error"></div>
     <div id="cgadmin-content">
 <?php
 if ($this->has_valid_codeguard_tokens()) { 
 ?>
-  <h2>CodeGuard Status</h2>
   <!-- <p><img class="codeguard-cgshield" src="http://codeguard.com/images/shield.green.png" style="height:24px;width:24px;"/> Your user credentials are valid!</p> -->
 <?php
-if ($this->has_website_id() ) { 
+  if ($this->has_website_id() ) { 
 ?>
   <!-- <p><img class="codeguard-cgshield" src="http://codeguard.com/images/shield.green.png" style="height:24px;width:24px;"/> Your website has been added to CodeGuard!</p> -->
 <?php
-  $this->codeguard_dashboard_widget();
-} else {
+    $this->codeguard_dashboard_widget();
+  } else {
 ?>
-  <p><img src="http://codeguard.com/images/shield.red.png" style="height:24px;width:24px;"/> Your website has not yet been added.</p>
+  <p>Your website has not yet been added.</p>
   <form action="" method="post" id="codeguard-add-website-form" style="">
     <input type="hidden" id="codeguard-add-website" name="codeguard-add-website" value="true" />
     <p class="submit"><input type="submit" name="submit" value="Add website" /></p>
@@ -28,50 +29,59 @@ if ($this->has_website_id() ) {
   }
 } else {
 ?>
+  <div class="cg_wpp_top_area">
+    <div class="cg_wpp_top_intro">
+      <h1>Welcome to the <span>CodeGuard</span> WordPress <span>Plugin</span>!</h1>
+      <p>CodeGuard privides automatic backup for your WordPress blog, and keep your content safe! After creating your CodeGuard account and <strong>adding your API key</strong> below, we will begin backing up your WordPress site. All of your posts, themes, comments, and everything else associated with your blog will be backed up and securely stored with CodeGuard. Setup is easy, and takes <strong>less than 5 minutes!</strong>
+      </p>
+      <a href="https://www.codeguard.com/wordpress" id="cg_wpp_button" target="_blank">Let's get started</a>
+    </div>
+    <div class="cg_wpp_video">
+      <iframe width="304" height="180" src="http://www.youtube.com/embed/OLrERaRblsQ" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
 
-      <h2>What is CodeGuard?</h2>
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.1em; color:#323232;">CodeGuard is an automatic daily backup service for your WordPress blog. After creating your CodeGuard account and adding your API key below, CodeGuard will begin backing up your WordPress site.  All of your posts, themes, comments, and everything else associated with your blog will be backed up and securely stored with CodeGuard.</p>
-      <p class="submit" style="text-align:center;"><a href="https://www.codeguard.com/wordpress" style="font-size: 21px !important;padding: 3px 40px;" class="button-primary codeguard-button" target="_blank">Get Started Now!</a></p>
+  <div class="cg_wpp_bottom_area">
+    <h1>Enter your <span>CodeGuard API Key</span> here</h1>
+    <p>Enter your CodeGuard key below. Not sure what this is? That's ok.  <a target="_blank" href="https://www.codeguard.com/wordpress">Follow these instructions to obtain your key</a>.</p>
 
-      <h2>How does it work?</h2>
-      <table width="100%" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-          <td height="30px" colspan="3"><img src="https://www.codeguard.com/images/spacer.gif" height="30px" width="1px" style="display: block;"></td>
-        </tr>
-        <tr>
-          <td width="235px" valign="top" align="left">
-            <span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.1em; color:#323232;"><b>Automated Daily Backups that never let you down.</b></span><span style="line-height: 0.1em;"><br>&nbsp;<br></span><span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.3em; color: #787878;">CodeGuard offers the most reliable backup on the market - 99.999999999% reliable. We achieve this by replicating your data in secure locations across the world - again and again and again.</span></span><br><br>
-            <span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.1em; color:#323232;"><b>Receive ChangeAlerts when content on your site changes.</b></span><span style="line-height: 0.1em;"><br>&nbsp;<br></span><span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.3em; color: #787878;">When CodeGuard takes the daily backup, it compares what is on your website with the last version of your website stored CodeGuard's system.  If any changes are found, CodeGuard emails you with the details!</span></span><br><br>
-            <span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.1em; color:#323232;"><b>Use Time Machine to view older versions of your website!</b></span><span style="line-height: 0.1em;"><br>&nbsp;<br></span><span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.3em; color: #787878;">CodeGuard takes a picture of what your website looks like each time it takes a backup.  Then, when you need to sort through older versions of your site, it's much easier when you can look at them!</span></span></td>
-          <td width="40px" valign="top" align="left"><img src="https://www.codeguard.com/images/spacer.gif" height="1px" width="30px" style="display: block;"></td>
-          <td width="235px" valign="top" align="left">
-            <span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1em; color:#323232;"><b>Get UNDO Power for when anything goes wrong</b></span><span style="line-height: .1em;"><br>&nbsp;<br></span><span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.3em; color: #787878;">CodeGuard helps should anything go wrong - deleted files are now recoverable, overwritten files are now obtainable, and if your site is hacked, the malware is easily removable.  All of this with nothing to install.</span></span><br><br>
-            <span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.1em; color:#323232;"><b>Easily Scan for Malware and Google Blacklisting</b></span><span style="line-height: 0.1em;"><br>&nbsp;<br></span><span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.3em; color: #787878;">You can rest safe knowing that CodeGuard is also looking out for malware.  We interact with Google on a regular basis to make sure your site is neither blacklisted nor infected.</span></span><br><br>
-            <span style="font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 1.1em; color:#323232;"><b>Source Code and Database Differential Storage</b></span><span style="line-height: 0.1em;"><br>&nbsp;<br></span><span style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.3em; color: #787878;">CodeGuard seamlessly backs up your source and databases. And it does it in an elegant way that saves you space and makes it easy to see changes between each backup/version.</span></span><br><br>
-          </td>
-        </tr>
-        <tr> 
-          <td height="30px" colspan="3"><img src="https://www.codeguard.com/images/spacer.gif" height="30px" width="1px" style="display: block;"></td> 
-        </tr> 
-      </table>
+    <form action="" method="post" id="codeguard-tokens-form" style="">
+      <label for="codeguard-tokens-combined">Key:<label>
+      <p><textarea id="codeguard-tokens-combined" name="codeguard-tokens-combined" cols="45" rows="2" value="<?php echo $this->get_codeguard_api_access_token(); ?>" ></textarea></p>
+      <p class="submit"><input id="cg_wpp_button" class="cg_wpp_submit" type="submit" name="submit" value="Add key and start backup" /></p>
+    </form>
+  </div>
 
-      <h2>CodeGuard API Key</h2>
-      <p>Enter your CodeGuard key below. Not sure what these are? <a target="_blank" href="https://www.codeguard.com/wordpress">Click here to find your CodeGuard key.</a></p>
+ <div class="cg_wpp_middle_area">
+    <h1>How does it <span>work</span>?</h1>
+    <div class="cg_wpp_backup">
+      <h2>Automatic Backups</h2>
+      <p>CodeGuard offers the most reliable backup on the market with 99.99% reliability. We achieve this by replicating your data in secure locations across the world - again and again and again.
+      </p>
+      <p>Ever thought about how you'd find out about your site getting hacked? If your site is hacked, it could be days or weeks before you even know about it.  CodeGuard believes that you should be the first to know, and so our monitoring system diligently checks your site for changes.
+      </p>
+    </div>
+    <div class="cg_wpp_monitor">
+      <h2>Automatic Monitoring</h2>
+      <p>When CodeGuard performs the backup, it compares what is on your sit with the last version of your website stored our system. If any changes are found we emails you with the details!
+      </p>
+      <p>When CodeGuard performs the backup, it compares what is on your website with the last version of your website stored in our system. We call this a differential backup, which is unique to CodeGuard and much more efficient at storing your data than other services.  If any changes are found, CodeGuard emails you with the details!
+      </p>
+    </div>
+    <div class="cg_wpp_restore">
+      <h2>One-Click Restore</h2>
+      <p>CodeGuard helps should anything go wrong - deleted files are now recoverable, overwritten files are now obtainable, and if your site is hacked, the malware is easily removable. All of this with nothing to install.
+      </p>
+      <p>You can rest safe knowing that CodeGuard is also looking out for malware. We interact with Google on a regular basis to make sure your site is neither blacklisted nor infected.
+      </p>
+    </div>
+  </div>
 
-      <form action="" method="post" id="codeguard-tokens-form" style="">
-        <h3><label for="codeguard-tokens-combined">Key<label></h3>
-        <p><textarea id="codeguard-tokens-combined" name="codeguard-tokens-combined" cols="45" rows="2" value="<?php echo $this->get_codeguard_api_access_token(); ?>" style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;"></textarea></p>
-        <p class="submit"><input type="submit" name="submit" value="Update" /></p>
-      </form>
 <?php
 }
-
-
 ?>
     </div>
   </div>
-<div class="clear"></div>
-<a id="codeguard-plugin-reset" href="javascript:;">CodeGuard Plugin Reset</a>
 <script type="text/javascript" >
 var codeguard_admin_init = function() {
   if(typeof(jQuery) == 'undefined') {

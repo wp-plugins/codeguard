@@ -24,7 +24,7 @@ class CodeGuard_Client {
   /* 
    * Client Version
    */
-  const CG_CLIENT_VERSION = 0.35;
+  const CG_CLIENT_VERSION = 0.36;
   /*
    * URL Endpoints
    */

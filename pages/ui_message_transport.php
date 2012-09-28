@@ -5,7 +5,7 @@
   global $codeguard_ui_messages, $hidden_ui_messages;
   if(isset($hidden_ui_messages) && $hidden_ui_messages == true) {
 ?>
-  <div id="codeguard_hidden_error" ><?php echo $codeguard_ui_messages; ?></div>
+  <div id="codeguard_hidden_error" style="display:none;"><?php echo $codeguard_ui_messages; ?></div>
 <?php
   } else {
 ?>
