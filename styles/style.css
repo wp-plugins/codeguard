@@ -11,6 +11,15 @@
   padding: 15px 7px 15px 7px;
 }
 
+.cg_wpp_bottom_area_reset_data {
+  float: left;
+  width: 1120px;
+}
+
+.cg_wpp_bottom_area_reset_data p {
+  margin-bottom: 0px !important;
+}
+
 #codeguard_inline_error {
   display: none;
   font-weight: bold;
@@ -251,7 +260,7 @@ p.cg_wpp_status strong {
   font-size: 17px !important;
 }
 
-h4#special_h4 {
+h5#special_h5 {
   font-family: Helvetica, sans-serif;
   color: #646464;
   font-weight: 600;
@@ -260,7 +269,18 @@ h4#special_h4 {
   line-height: 31px;
   border: none;
   position: relative;
-  margin-top: 0px;
+  top: -10px;
+}
+
+h5#special_h52 {
+  position: relative;
+  top: -10px;
+  font-family: Helvetica, sans-serif;
+  color: #646464;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 12px;
+  line-height: 31px;
 }
 
 #cgadmin-content div.cg_wpp_table {
@@ -310,7 +330,6 @@ h4{
   margin-bottom: 20px;
   font-size: 12px;
   line-height: 31px;
-  position: relative; top: -10px;
 }
 
 h1.cg_wpp_special_h1 {
@@ -391,8 +410,3 @@ h1#error span {
   float: right;
   right: 10px;
 }
-
-body.wp-admin div#footer {
-  display: none !important;
-}
-

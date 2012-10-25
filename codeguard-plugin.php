@@ -4,8 +4,8 @@
    Plugin URI: https://codeguard.com/wordpress
    Author: The CodeGuard Team
    Description: Get a time machine for your website!  CodeGuard will monitor your site for changes.  When a change is detected, we will alert you and take a new backup of your database and site content.
-   Version: 0.36
- */
+   Version: 0.37
+*/
 
 /*
 This program is free software; you can redistribute it and/or modify 
@@ -35,7 +35,7 @@ class CodeGuard_WP_Plugin {
   private $cg_client = null;
 
   const HTTP_REQUEST_TIMEOUT = 45;
-  const PLUGIN_VERSION = 0.36;
+  const PLUGIN_VERSION = 0.37;
 
   function __construct() {
     // Check for PHP > 5.2
@@ -118,7 +118,7 @@ class CodeGuard_WP_Plugin {
       // Display signup form if not configured
       if( !($this->is_codeguard_configured()) ) {
         // Don't display signup form on the admin-menu page
-        if ( !$this->on_admin_page() ) {
+        if ( !$this->on_cg_page() ) {
           add_action('admin_notices', array($this, 'signup_form_notice'));
         }
       } else {
@@ -132,7 +132,7 @@ class CodeGuard_WP_Plugin {
 
         // Check for valid website id
         if( !($this->has_website_id() ) ) {
-          if ( !$this->on_admin_page() ) {
+          if ( !$this->on_cg_page() ) {
             $this->set_ui_error_message('missing_website_id', false);
           }
         } else {
@@ -189,6 +189,7 @@ class CodeGuard_WP_Plugin {
       return;
     $admin_menu_image_link = $this->codeguard_plugin_image_url() . 'cgshield.png';
     add_menu_page('CodeGuard Admin Menu', 'CodeGuard', 'publish_posts', $this->plugin_name . '-admin-menu', array($this,'main_menu_page'), $admin_menu_image_link);
+    add_submenu_page($this->plugin_name . '-admin-menu', 'CodeGuard Settings', 'Settings', 'manage_options', $this->plugin_name . '-settings-menu', array($this, 'settings_page'));
   }
 
   private function decrypt_parameter_string($source_text, $cg_exporter) {
@@ -702,6 +703,12 @@ class CodeGuard_WP_Plugin {
     return $email;
   }
 
+  function settings_page() {
+    if ( !current_user_can( 'manage_options' ) )
+      return;
+    require "pages/settings.php";
+  }
+
   function main_menu_page() {
     if ( !current_user_can( 'manage_options' ) )
       return;
@@ -774,9 +781,19 @@ class CodeGuard_WP_Plugin {
     return $login_url;
   }
 
+  // Convenience method for detecting if the user is viewing the codeguard-settings-menu
+  function on_settings_page() {
+    return !( empty($_REQUEST["page"]) || $_REQUEST["page"] !== "codeguard-settings-menu" ); 
+  }
+
   // Convenience method for detecting if the user is viewing the codeguard-admin-menu
   function on_admin_page() {
     return !( empty($_REQUEST["page"]) || $_REQUEST["page"] !== "codeguard-admin-menu" ); 
+  }
+
+  // Convenience method for detecting if on any CodeGuard pages
+  function on_cg_page() {
+    return ($this->on_settings_page() || $this->on_admin_page());
   }
 
   // Convenience method for checking if this is a multisite install

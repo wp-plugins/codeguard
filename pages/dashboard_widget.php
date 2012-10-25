@@ -23,10 +23,10 @@ if(!defined("ABSPATH"))
 <?php
 if(isset($site_stats->last_backup_time)) {                                                                                                              
 ?>
-    <h4 id="special_h4">Last Backup:<h4>
+    <h5 id="special_h5">Last Backup:<h5>
     <h1 class="cg_wpp_special_h1"><?php echo date('l\, F dS Y', strtotime($site_stats->last_backup_time)) ?> <span class="cg_wpp_time_span"> / <?php echo date(' h:i:s A', strtotime($site_stats->last_backup_time)) ?></span></h1>
     <div class="cg_wpp_table">
-      <h4>Content:</h4>
+      <h5 id="special_h52">Content:</h5>
       <table>
         <tr id="tr_top">
           <td>Posts</td>

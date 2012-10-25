@@ -86,6 +86,10 @@ You can see our full FAQ at [support.codeguard.com](http://support.codeguard.com
 == Changelog == 
 
 = 0.36 =
+* Fix bug that impacted h4 tags on Admin pages with some themes
+* Add settings page with API key update
+
+= 0.36 =
 * New and improved user interface
 * Updated view logic to only load stylesheet and javascript when needed
 
