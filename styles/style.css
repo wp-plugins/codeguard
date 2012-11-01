@@ -52,7 +52,7 @@
   text-decoration: underline;
 }
 
-#cgadmin-content, #cgadmin-content p, p {
+#cgadmin-content, #cgadmin-content p {
   font-family: Helvetica, sans-serif !important;
   font-size: 13px !important;
   line-height: 22px !important;
@@ -64,7 +64,7 @@
   margin-bottom: 33px;
 }
 
-#cgadmin-content h1, h1 span {
+#cgadmin-content h1, #cgadmin-content h1 span {
   font-family: Helvetica, sans-serif;
   color: #646464;
   font-weight: 100;
@@ -74,7 +74,7 @@
   border: none;
 }
 
-#cgadmin-content h2, h2, h2 span {
+#cgadmin-content h2, #cgadmin-content h2 span {
   font-family: Helvetica, sans-serif;
   color: #464646;
   font-weight: 100;
@@ -323,7 +323,7 @@ h5#special_h52 {
   border: none;
 }
 
-h4{
+#cgadmin-content h4{
   font-family: Helvetica, sans-serif;
   color: #646464;
   font-weight: 600;

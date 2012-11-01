@@ -4,7 +4,7 @@
    Plugin URI: https://codeguard.com/wordpress
    Author: The CodeGuard Team
    Description: Get a time machine for your website!  CodeGuard will monitor your site for changes.  When a change is detected, we will alert you and take a new backup of your database and site content.
-   Version: 0.37
+   Version: 0.38
 */
 
 /*
@@ -35,7 +35,7 @@ class CodeGuard_WP_Plugin {
   private $cg_client = null;
 
   const HTTP_REQUEST_TIMEOUT = 45;
-  const PLUGIN_VERSION = 0.37;
+  const PLUGIN_VERSION = 0.38;
 
   function __construct() {
     // Check for PHP > 5.2
