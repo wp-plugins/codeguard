@@ -90,7 +90,7 @@ function auth_form(t)
     }
     if(send) {
         form.find('#message-form').css('display', 'none');
-        data['password'] = document.auth.password.value; 
+        data['password'] = document.auth.password.value;
         data['username'] = document.auth.username.value;
         backup = jQuery("#name_backup_restore").val();
         jQuery.ajax({
@@ -115,22 +115,22 @@ function auth_form(t)
                         dataType: 'json',
                         success: function(res) {
                             location.reload();
-                        } 
+                        }
                     });
                     form.attr('action', data.url);
-                    jQuery(form).submit(); 
+                    jQuery(form).submit();
                 }
             }
 
         });
     }
-} 
+}
 var logs = [];
 function processBar()
-{      
+{
     var data_log = {
         'action': 'amazon-s3-backup_logs',
-    };   
+    };
     jQuery.ajax({
         type: "POST",
         url: ajaxurl,
@@ -171,11 +171,11 @@ function recovery_form(type, name)
         'action': 'amazon-s3-backup-as3b-recover',
         'name': name,
         'type': type,
-    };  
+    };
     jQuery("#log-backup").html('');
     jQuery(".title-logs").css('display', 'block');
-    jQuery("#action-buttons").css('margin-top', '8px'); 
-    jQuery("#action-buttons").css('margin-top', '8px'); 
+    jQuery("#action-buttons").css('margin-top', '8px');
+    jQuery("#action-buttons").css('margin-top', '8px');
     jQuery("#support-button").css('margin-top', '8px');
     jQuery(".title-status").css('display', 'none');
     jQuery("#logs-form").show("slow");
@@ -193,17 +193,17 @@ function recovery_form(type, name)
                 jQuery('.title-logs').css('display', 'none');
                 jQuery('.title-status').css({'display':'block', 'color':'green'});
                 if (type == 'local') {
-                    jQuery('.title-status').html('Local Backup(' + name + ') was restored successfully');
+                    jQuery('.title-status').html('Successfully restored local backup: ' + name);
                 } else {
-                    jQuery('.title-status').html('Amazone S3 Backup(' + name + ') was restored successfully');
+                    jQuery('.title-status').html('Successfully restored CodeGuard backup: ' + name);
                 }
             } else {
                 jQuery('.title-logs').css('display', 'none');
                 jQuery('.title-status').css({'display':'block', 'color':'red'});
                 if (type == 'local') {
-                    jQuery('.title-status').html('Local Backup(' + name + ') wasn\'t restored');
+                    jQuery('.title-status').html('Failed to restore local backup: ' + name);
                 } else {
-                    jQuery('.title-status').html('Amazone S3 Backup(' + name + ') wasn\'t restored: ' + data.error);
+                    jQuery('.title-status').html('Failed to restore CodeGuard backup: ' + name);
                 }
             }
         },
@@ -258,7 +258,7 @@ function blickForm(id, t)
     showRegistInfo(false);
     if (l > 0) {
         blick(id);
-    } 
+    }
 }
 
 function toggleButton() {

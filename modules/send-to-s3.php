@@ -21,7 +21,7 @@ if (!class_exists('send_to_s3')) {
                     $filePath = preg_replace('#[/\\\\]+#', '/', BACKUP_DIR . '/' . $dir . '/' . $files[$i]);
                     $key = ($dir) ? $dir .'/'. basename($filePath) : basename($filePath);
                     $key = ltrim( preg_replace('#[/\\\\]+#', '/', $key), '/' );//if first will be '/', file not will be uploaded, but result will be ok
-                    $putRes = $client->putObject(array("Bucket" => $ad['bucket'], 'Key' => $key, 'Body' => fopen($filePath, 'r+')));
+                    $putRes = $client->putObject(array("Bucket" => $ad['bucket'], 'Key' => $ad['prefix'] . '/' . $key, 'Body' => fopen($filePath, 'r+')));
                     main::log( str_replace('%s', basename($filePath) , lang::get("Uploading part: %s", false ) ) ) ;
                     if ( !isset($putRes['RequestId']) || empty($putRes['RequestId'])) {
                         main::log( str_replace('%s', basename($filePath) , lang::get("Failed to upload part: %s", false ) ) ) ;

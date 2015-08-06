@@ -188,8 +188,8 @@
     overflow: hidden;
     width: 500px;
     padding: 15px;
-    margin-bottom: 60px;
-    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-top: 25px;
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
     border: 1px solid #e4e4e4;
     clear: both;
@@ -883,4 +883,23 @@ input.disabled:hover, input:disabled:hover, select.disabled:hover, select:disabl
   position: relative !important;
   top: 1px !important;
   margin-right: 2px !important;
+}
+
+.new_key {
+  color: #9EC953;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.new_key:hover, .update_settings:hover {
+  color: #9EC953;
+  text-decoration: none;
+}
+
+.update_settings {
+  color: #9EC953;
+  margin-top: 17px;
+  display: inline-block;
+  font-size: 14px;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }

@@ -2,6 +2,10 @@
     <script>
         jQuery(document).ready(function(){
             jQuery('[data-toggle="tooltip"]').tooltip(); 
+            
+            jQuery(".update_settings").click(function() {
+              jQuery(".cfTabsContainer").fadeToggle();
+            });
         });
         process_flag = 0;
         function start_backup(type)
@@ -86,52 +90,24 @@
                     '<td style="border: 0;padding: 0px;"><a href="<?php echo get_option('siteurl') . "/wpadm_backups/"?>' + data.name + '/' + e[e.length - 1] + '">' + e[e.length - 1] + '</td>' +
                     '</tr>' ;
                 }
-                count = jQuery('.number-backup').length + 1;
                 jQuery('.table > tbody:last').after(
                 '<tr>'+
-                '<td class="number-backup" onclick="shows(\'' + data.md5_data + '\')">' +
-                count + 
-                '</td>' +
-                '<td class="pointer" onclick="shows(\'' + data.md5_data + '\')" style="text-align: left; padding-left: 7px;" >' +
+                '<td class="pointer" style="text-align: left; padding-left: 7px;" >' +
                 data.time + 
                 '</td>' +
-                '<td class="pointer" onclick="shows(\'' + data.md5_data + '\')">' +
+                '<td class="pointer">' +
                 data.name +
                 '</td>' +
-                '<td class="pointer" onclick="shows(\'' + data.md5_data + '\')">' +
-                data.counts +
-                '</td>' +
-                '<td class="pointer" onclick="shows(\'' + data.md5_data + '\')">' +
-                '<img src="<?php echo plugin_dir_url( dirname(__FILE__) ) . "/images/ok.png" ;?>" title="Successful" alt="Successful" style="float: left; width: 13px; height: 13px; margin-right: 7px; margin-top: 3px;" />'+
-                '<div style="margin-top :1px;float: left;"><?php echo 'Successful';?></div>' +
-                '</td>' +
-                '<td class="pointer" onclick="shows(\'' + data.md5_data + '\')">' +
-                data.type + ' backup' +
-                '</td>' +
-                '<td class="pointer" onclick="shows(\'' + data.md5_data + '\')">' +
+                '<td class="pointer">' +
                 size_backup.toFixed(2) + "Mb" +
                 '</td>' +
                 '<td>' +
                 '<a href="javascript:void(0)" class="button-wpadm" title="Restore" onclick="recovery_form(\'' + data.type + '\', \'' + data.name + '\')"><span class="pointer dashicons dashicons-backup"></span>Restore</a> &nbsp;' +
                 '<a href="javascript:void(0)" class="button-wpadm" title="Delete" onclick="delete_backup(\'' + data.name + '\', \'' + data.type + '\')"><span class="pointer dashicons dashicons-trash"></span>Delete</a> &nbsp;' +
                 '</td>' +
-                '</tr>'+
-                '<tr id="' + data.md5_data + '" style="display: none;">'+
-                '<td colspan="2">' +
-                '</td>' +
-                '<td align="center" style="padding: 0px; width: 350px;">' +
-                '<div style="overflow: auto; max-height: 150px;">' +
-                '<table border="0" align="center" style="width: 100%;" class="info-path">' +
-                info +
-                '</table>' +
-                '</div>' +
-                '</td>' +
-                '<td colspan="6"></td>' +
                 '</tr>')
             }
         }
-
-
 
     </script>
     <div>
@@ -189,8 +165,8 @@
                 <div class="log-amazon" style="background-image: url(<?php echo plugins_url('/images/codeguard_logo.png', dirname(__FILE__));?>);">
                 </div>
 
-                <div class="cfTabsContainer" style="float: left; clear: both; padding-bottom: 0px; padding-top: 0px;">
-                    <div id="setting_active" class="cfContentContainer">
+                <div class="cfTabsContainer" style="float: left; clear: both; padding-bottom: 0px; padding-top: 0px;<?php echo isset($amazon_option['codeguard_key']) ? 'display:none;' : ''?>">
+                    <div id="setting_active" class="cfContentContainer" style="">
                         <form method="post" action="" >
                             <div class="stat-wpadm-registr-info" style="width: auto; margin-bottom: 5px;">
                                 <div  style="margin-bottom: 12px; margin-top: 20px; font-size: 15px;">
@@ -200,12 +176,13 @@
                                     <tbody>
                                         <tr valign="top">
                                             <td>
-                                                <input id="secret_access_key" oninput="toggleButton()" class="" type="text" name="secret_access_key" placeholder="Unique Access Key" value="<?php echo isset($amazon_option['secret_access_key']) ? $amazon_option['secret_access_key'] : ''?>" style="width: 100%; padding: 10px 13px; margin-bottom: 10px;">
+                                                <input id="codeguard_key" oninput="toggleButton()" class="" type="text" name="codeguard_key" placeholder="Unique Access Key" value="<?php echo isset($amazon_option['codeguard_key']) ? $amazon_option['codeguard_key'] : ''?>" style="width: 100%; padding: 10px 13px; margin-bottom: 10px;">
                                             </td>
                                         </tr>
                                         <tr valign="top">
                                             <td>
-                                                <input class="btn-orange" disabled="disabled" type="submit" value="Save" style="height: 35px; min-height: 35px; max-height: 35px; margin-bottom: 10px; width: 68px; max-width: 68px; min-width: 68px;" id="enterKeyButton">
+                                                <input class="btn-orange" type="submit" value="Save" style="height: 35px; min-height: 35px; max-height: 35px; margin-bottom: 10px; width: 68px; max-width: 68px; min-width: 68px;" id="enterKeyButton">
+                                                <a href="https://www.codeguard.com/wordpress-plugin" target="_blank" class="new_key">Need a new Access Key?</a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -220,7 +197,7 @@
             <!-- create backup buttons -->
             <div class="" style="margin-top:10px;">
             <div id="logs-form" style="display: none; float:left; clear: both;">
-                <div class="title-logs"><span style="font-size:16px;">Please wait...<img style="float: right;" src="<?php echo plugins_url('/images/wpadmload.gif', dirname(__FILE__))?>" alt=""></div>
+                <div class="title-logs"><span style="font-size:16px;">Please wait...</div>
                 <div class="title-status" style="font-size:16px; display: none;"></div>
                 <div id="log-block">
                     <div id="log-backup" style="overflow: auto; height: 60px; border: 5px solid #fff; "></div>
@@ -244,12 +221,8 @@
             <table class="table" style="margin-top: 5px; display: <?php echo isset($data['md5']) && ($n = count($data['data'])) && is_array($data['data'][0]) ? 'table' : 'none'?>;">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th align="left">Created Date/Time</th>
-                        <th>Name of Backup</th>
-                        <th>Archive Parts</th>
-                        <th>Status</th>
-                        <th>Type of Backup</th>
+                        <th align="left">Backup Time</th>
+                        <th>Name</th>
                         <th>Size</th>
                         <?php if(is_admin() || is_super_admin()) {?>
                             <th>Action</th>
@@ -265,24 +238,11 @@
                                 $size = round($size, 2);
                             ?>
                             <tr>
-                                <td class="number-backup"><?php echo ($i + 1);?></td>
-                                <td onclick="shows('<?php echo md5( print_r($data['data'][$i], 1) );?>')" class="pointer" style="text-align: left; padding-left: 7px;"><?php echo $data['data'][$i]['dt'];?></td>
-                                <td onclick="shows('<?php echo md5( print_r($data['data'][$i], 1) );?>')" class="pointer">
-                                    <?php echo $data['data'][$i]['name'];?>
-                                    <script type="text/javascript">
-                                        backup_name = '<?php echo $data['data'][$i]['name']?>';
-                                        global[backup_name] = {};
-                                    </script>
-                                </td>
-                                <td onclick="shows('<?php echo md5( print_r($data['data'][$i], 1) );?>')" class="pointer"><?php echo $data['data'][$i]['count'];?></td>
-                                <td onclick="shows('<?php echo md5( print_r($data['data'][$i], 1) );?>')" class="pointer" style="padding: 0px;">
-                                    <img src="<?php echo plugin_dir_url(dirname(__FILE__)) . "/images/ok.png" ;?>" title="Successful" alt="Successful" style="float: left; width: 13px; height: 13px; margin-right: 7px; margin-top: 3px;" />
-                                    <div style="margin-top :1px;float: left;"><?php echo 'Successful';?></div>
-                                </td>
-                                <td onclick="shows('<?php echo md5( print_r($data['data'][$i], 1) );?>')" class="pointer"><?php echo $data['data'][$i]['type'];?> backup</td>
-                                <td onclick="shows('<?php echo md5( print_r($data['data'][$i], 1) );?>')" class="pointer"><?php echo $size . "Mb";?></td>
+                                <td class="pointer" style="text-align: left; padding-left: 7px;"><?php echo $data['data'][$i]['dt'];?></td>
+                                <td class="pointer"><?php echo $data['data'][$i]['name'];?></td>
+                                <td class="pointer"><?php echo $size . "Mb";?></td>
                                 <?php if(is_admin() || is_super_admin()) {?>
-                                    <td>
+                                    <td style="width: 220px;">
                                         <a class="button-wpadm" href="javascript:void(0)" title="Restore" onclick="recovery_form('<?php echo $data['data'][$i]['type'];?>', '<?php echo $data['data'][$i]['name']?>')" style="color: #fff;"><span class="pointer dashicons dashicons-backup" style="margin-top:3px;"></span>Restore</a>&nbsp;
                                         <a class="button-wpadm" href="javascript:void(0)" title="Delete" onclick="delete_backup('<?php echo $data['data'][$i]['name']; ?>', '<?php echo $data['data'][$i]['type'];?>')" style="color: #fff;"><span class="pointer dashicons dashicons-trash" style="margin-top:3px;"></span>Delete</a>&nbsp;
                                     </td>
@@ -290,50 +250,14 @@
                                     }
                                 ?>
                             </tr>
-                            <tr id="<?php echo md5( print_r($data['data'][$i], 1) );?>" style="display:none; ">
-                                <td colspan="2">
-                                </td>
-                                <td align="center" style="padding: 0px; width: 350px;">
-                                    <div style="overflow: auto; max-height: 150px;">
-                                        <?php 
-                                            $files = explode(",", str_replace(array('"', "[", "]"), "", $data['data'][$i]['files'] ) );
-                                            $f = count($files);
-                                            if ($f > 0) {  ?>
-                                            <table border="0" align="center" class="info-path"> <?php
-                                                    for($j = 0; $j < $f; $j++) {
-                                                        if (!empty($files[$j])) {
-                                                        ?>
-                                                        <tr style="border: 0;">
-                                                            <td style="border: 0;">
-                                                                <?php //if ($data['data'][$i]['type'] == 's3') {
-                                                                    echo $files[$j];
-                                                                    // } else {?>
-                                                                <!-- <a href="<?php echo get_option('siteurl') . "/wpadm_backups/{$data['data'][$i]['name']}/{$files[$j]}"?>">
-                                                                <?php echo $files[$j]; ?>
-                                                                </a> -->
-                                                                <?php // } ?>
-                                                            </td>
-                                                        </tr>
-                                                        <?php
-                                                        }
-                                                    }
-                                                ?>
-                                            </table>
-                                            <?php
-                                            } 
-                                        ?>
-                                    </div>
-                                </td>
-                                <td colspan="6"></td>
-                            </tr>
                             <?php 
                         } ?>
 
                         <?php } ?>
                 </tbody>
             </table>
-
         </div>
+        <a href="javascript:void(0);" class="update_settings">Update Settings</a>
         </div>
     </div>
 

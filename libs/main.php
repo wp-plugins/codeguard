@@ -6,18 +6,14 @@ include_once("beacon.php");
 if (!class_exists('main')) {
 
     add_action('admin_menu', array('main', 'admin_inc_menu')); 
-    add_action('admin_post_activate_plugin', array('main', 'activate_plugin') );
-    add_action('admin_post_activate_plugin', array('main', 'activate_plugin') );
-    register_uninstall_hook("../uninstall.php", "codeguard_uninstall_beacon");
     add_action('wp_ajax_amazon-s3-backup-as3b-recover', array('main', 'restore_backup') );
     add_action('wp_ajax_amazon-s3-backup_logs', array('main', 'get_log') );
     add_action('wp_ajax_amazon-s3-backup_local_backup', array('main', 'localBackup') );
     add_action('wp_ajax_amazon-s3-backup_create', array('main', 'backup_s3') );
     add_action('wp_ajax_amazon-s3-backup_set_user_mail', array('main', 'setUserMail') );
-
     add_action('admin_post_amazon-s3-backup_delete_backup', array('main', 'delete_backup') );
-
     add_action( 'codeguard_daily_backup', array('main','backup_s3' ));
+    register_uninstall_hook("../uninstall.php", "codeguard_uninstall_beacon");
 
     class main {
 
@@ -172,18 +168,18 @@ if (!class_exists('main')) {
 
         public static function activate()
         {
-          codeguard_beacon('activate', func_get_args());
-          if ( ! wp_next_scheduled( 'codeguard_daily_backup' ) ) {
-              wp_schedule_event( time(), 'daily', 'codeguard_daily_backup' );
-          }
+            codeguard_beacon('activate', func_get_args());
+            if ( ! wp_next_scheduled( 'codeguard_daily_backup' ) ) {
+                wp_schedule_event( time(), 'daily', 'codeguard_daily_backup' );
+            }
 
         }
 
         public static function deactivate()
         {
 
-          codeguard_beacon('deactivate', func_get_args());
-          wp_clear_scheduled_hook('codeguard_daily_backup');
+            codeguard_beacon('deactivate', func_get_args());
+            wp_clear_scheduled_hook('codeguard_daily_backup');
 
         }
 
@@ -200,60 +196,6 @@ if (!class_exists('main')) {
             wp_enqueue_style('js-amazon-s3-backup-css1', plugins_url( "/css/jquery.arcticmodal-0.3.css", dirname(__FILE__) ) );
 
             wp_enqueue_script('postbox');
-        }
-        public static function activate_plugin()
-        {
-            if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password-confirm'])) {
-                $email = trim(stripslashes(strip_tags($_POST['email'])));
-                $password = trim(strip_tags($_POST['password']));
-                $password_confirm = trim(strip_tags($_POST['password-confirm'])); 
-                $sent = true;
-                if (empty($email)) { 
-                    self::setError("Error, Email is empty.");
-                    $sent = false;
-                }
-                if (!preg_match("/^([a-z0-9_\-]+\.)*[a-z0-9_\-]+@([a-z0-9][a-z0-9\-]*[a-z0-9]\.)+[a-z]{2,4}$/i", $email)) {
-                    self::setError("Error, Incorrect Email");
-                    $sent = false;
-                }
-                if (empty($password)) {
-                    self::setError("Error, Password is empty.");
-                    $sent = false;
-                }
-                if (strlen($password) < self::MIN_PASSWORD) {
-                    self::setError("Error, the minimum number of characters for the password \"" . self::MIN_PASSWORD . "\".");
-                    $sent = false;
-                }
-
-                if ($password != $password_confirm) {
-                    self::setError("Error, passwords do not match");
-                    $sent = false;
-                }
-                if ($sent) {
-                    $info = self::$plugin_name;
-                    $mail = get_option(PREFIX_BACKUP_ . "email");
-                    if ($mail) {
-                        add_option(PREFIX_BACKUP_ . "email", $email);
-                    } else {
-                        update_option(PREFIX_BACKUP_ . "email",$email);
-                    }
-                    $data = self::sendToServer(
-                    array(
-                    'actApi' => "activate",
-                    'email' => $email,
-                    'password' => $password,
-                    'url' => get_option("siteurl"),
-                    'plugin' => $info,
-                    )
-                    );
-                    $res = self::setResponse($data);
-                }
-            }
-            if (isset($res['url']) && !empty($res['url'])) {
-                header("Location: " . $res['url']);
-            } else {
-                header("Location: " . admin_url("admin.php?page=wpadm_plugins"));
-            }
         }
 
         public static function setError($msg)
@@ -293,21 +235,19 @@ if (!class_exists('main')) {
             self::includesPlugins();
             if(checkInstallWpadmPlugins()) {
                 $page = add_menu_page(
-                'Settings', 
-                'Settings', 
                 "read", 
                 'wpadm_plugins', 
                 'wpadm_plugins',
-                plugins_url('/images/wpadm-logo.png', dirname(__FILE__)),
+                plugins_url('/images/cg-logo.png', dirname(__FILE__)),
                 $menu_position     
                 );
                 add_submenu_page(
-                'wpadm_plugins', 
-                "CodeGuard",
-                "CodeGuard",
-                'read',
-                'amazon-s3-backup',
-                array('main', 'backups_view')
+                    'wpadm_plugins', 
+                    "CodeGuard",
+                    "CodeGuard",
+                    'read',
+                    'amazon-s3-backup',
+                    array('main', 'backups_view')
                 );
             } else {
                 $page = add_menu_page(
@@ -316,14 +256,12 @@ if (!class_exists('main')) {
                 "read", 
                 'amazon-s3-backup', 
                 array('main', 'backups_view'),
-                plugins_url('/images/wpadm-logo.png', dirname(__FILE__)),
+                plugins_url('/images/cg-logo.png', dirname(__FILE__)),
                 $menu_position     
                 );
 
                 add_submenu_page(
                 'amazon-s3-backup', 
-                "Settings",
-                "Settings",
                 'read',
                 'wpadm_plugins',
                 'wpadm_plugins'
@@ -406,7 +344,7 @@ if (!class_exists('main')) {
             $data = array('data' => array(), 'md5' => md5( print_r(array(), 1) ) );
             try {
                 $project = self::getNameBackup(0, false, true);
-                $keys = $client->listObjects(array('Bucket' => $setting['bucket'], 'Prefix' => $project . '-full'))->getIterator();//->getPath('Contents/*/Key');
+                $keys = $client->listObjects(array('Bucket' => $setting['bucket'], 'Prefix' => $setting['prefix'] . '/' . $project . '-full'))->getIterator();//->getPath('Contents/*/Key');
                 if (isset($keys['Contents'])) {
                     $n = count($keys['Contents']);
                     $j = 0;
@@ -414,20 +352,20 @@ if (!class_exists('main')) {
                     for($i = 0; $i < $n; $i++) {
                         if (isset($keys['Contents'][$i]['Key'])) {
                             $backup = explode('/', $keys['Contents'][$i]['Key']);
-                            if (isset($backup[0]) && isset($backup[1]) && !empty($backup[1])) {
-                                if (!isset($backups[$backup[0]])) {
-                                    $backups[$backup[0]] = $j;
-                                    $data['data'][$j]['name'] = $backup[0];
-                                    $data['data'][$j]['dt'] = self::getDateInName($backup[0]);
+                            if (isset($backup[1]) && isset($backup[2]) && !empty($backup[2])) {
+                                if (!isset($backups[$backup[1]])) {
+                                    $backups[$backup[1]] = $j;
+                                    $data['data'][$j]['name'] = $backup[1];
+                                    $data['data'][$j]['dt'] = self::getDateInName($backup[1]);
                                     $data['data'][$j]['size'] = $keys['Contents'][$i]['Size'];
-                                    $data['data'][$j]['files'] = $backup[1];
+                                    $data['data'][$j]['files'] = $backup[2];
                                     $data['data'][$j]['type'] = 's3';
                                     $data['data'][$j]['count'] = 1;
                                     $j++;
                                 } else {
-                                    $data['data'][$backups[$backup[0]]]['files'] .= ',' . $backup[1];
-                                    $data['data'][$backups[$backup[0]]]['size'] += $keys['Contents'][$i]['Size'];
-                                    $data['data'][$backups[$backup[0]]]['count'] += 1;
+                                    $data['data'][$backups[$backup[1]]]['files'] .= ',' . $backup[2];
+                                    $data['data'][$backups[$backup[1]]]['size'] += $keys['Contents'][$i]['Size'];
+                                    $data['data'][$backups[$backup[1]]]['count'] += 1;
                                 }
                             }
                         }
@@ -440,17 +378,45 @@ if (!class_exists('main')) {
             return $data;
         }
 
-        public static function backups_view()
+        public static function update_codeguard_creds($codeguard_key)
         {
-            if (isset($_POST['access_key_id']) && isset($_POST['bucket']) && isset($_POST['secret_access_key'])) {
-                $setting = get_option(PREFIX_CODEGUARD . 'setting');
-                $setting__ = $_POST;
-                if ($setting) {
-                    update_option(PREFIX_CODEGUARD . 'setting', $setting__);
-                } else {
-                    add_option(PREFIX_CODEGUARD . 'setting', $setting__);
+            $creds = array();
+
+            try {
+                $json_string = json_decode(stripslashes(base64_decode(trim($codeguard_key))), true);
+
+                $creds['access_key_id'] = $json_string['AccessKey'];
+                $creds['secret_access_key'] = $json_string['SecretKey'];
+                $creds['bucket'] = $json_string['S3Bucket'];
+                $creds['prefix'] = $json_string['S3Path'];
+                $creds['codeguard_key'] = $codeguard_key;
+
+                if (! isset($creds['access_key_id']) || ! isset($creds['secret_access_key']) || ! isset($creds['bucket']) || ! isset($creds['prefix']) || ! isset($creds['codeguard_key'])) {
+                    throw new Exception("Missing required authentication credentials.");
                 }
 
+                // Test 'em
+                require_once self::getPluginDir() . '/libs/classes/aws-autoloader.php';
+                $credentials = new Aws\Common\Credentials\Credentials($creds['access_key_id'], $creds['secret_access_key']);
+                $client = Aws\S3\S3Client::factory(array( 'credentials' => $credentials ) );
+                if( ! $client->doesBucketExist($creds['bucket']) ) {
+                    throw new Exception("Bucket (" . $creds['bucket'] . ") does not exist.");
+                }
+
+                if (get_option(PREFIX_CODEGUARD . 'setting')) {
+                    update_option(PREFIX_CODEGUARD . 'setting', $creds);
+                } else {
+                    add_option(PREFIX_CODEGUARD . 'setting', $creds);
+                }
+            } catch (Exception $e) {
+                self::setError( "Invalid CodeGuard key. ( " . $e->getMessage() . ")");
+            }
+        }
+
+        public static function backups_view()
+        {
+            if (isset($_POST['codeguard_key'])) {
+                self::update_codeguard_creds($_POST['codeguard_key']);
             }
 
             $data = self::getBackups();
@@ -484,7 +450,7 @@ if (!class_exists('main')) {
                         $credentials = new Aws\Common\Credentials\Credentials($amazon_option['access_key_id'], $amazon_option['secret_access_key']);
                         $client = Aws\S3\S3Client::factory(array( 'credentials' => $credentials ) );
                         try {
-                            $keys = $client->listObjects(array('Bucket' => $amazon_option['bucket'], 'Prefix' => $_POST['backup-name']))->getIterator();
+                            $keys = $client->listObjects(array('Bucket' => $amazon_option['bucket'], 'Prefix' => $amazon_option['prefix'] . '/' . $_POST['backup-name']))->getIterator();
                             if (isset($keys['Contents'])) {
                                 $n = count($keys['Contents']);
                                 for($i = 0; $i < $n; $i++) {
@@ -511,15 +477,16 @@ if (!class_exists('main')) {
                 $setting = get_option(PREFIX_CODEGUARD . 'setting');
                 if (isset($setting['access_key_id']) && isset($setting['secret_access_key']) && isset($setting['bucket'])) {
                     $core = new core('send-to-s3', array('params' => array( 'files' => $res['data'], 'access_details' => 
-                    array( 'bucket' => $setting['bucket'], 
-                    'AccessKeyId' => $setting['access_key_id'], 
-                    'SecretAccessKey' => $setting['secret_access_key'], 
-                    'dir' => $res['name'],
-                    'mkdir_for_backup' => 1,
+                        array( 'bucket' => $setting['bucket'], 
+                        'prefix' => $setting['prefix'], 
+                        'AccessKeyId' => $setting['access_key_id'], 
+                        'SecretAccessKey' => $setting['secret_access_key'], 
+                        'dir' => $res['name'],
+                        'mkdir_for_backup' => 1,
                     ) 
-                    ) 
-                    ) 
-                    );
+                ) 
+            ) 
+        );
                     $res2 = plugin_unpack((string)$core);
                     if ($res2['result'] == 'success') {
                         $res['type'] = 's3';

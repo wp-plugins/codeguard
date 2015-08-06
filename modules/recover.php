@@ -38,23 +38,32 @@ class recover extends module_as3b {
                 $credentials = new Aws\Common\Credentials\Credentials($amazon_option['access_key_id'], $amazon_option['secret_access_key']);
                 $client = Aws\S3\S3Client::factory(array( 'credentials' => $credentials ) );
                 main::log( lang::get( "Downloading backup", false) );
-                $keys = $client->listObjects(array('Bucket' => $amazon_option['bucket'], 'Prefix' => $this->params['name'] ))->getIterator();//->getPath('Contents/*/Key');
+                $keys = $client->listObjects(array('Bucket' => $amazon_option['bucket'], 'Prefix' => $amazon_option['prefix'] . '/' . $this->params['name'] ))->getIterator();//->getPath('Contents/*/Key');
                 if (isset($keys['Contents'])) {
                     $n = count($keys['Contents']);
                     main::mkdir($dir);
                     main::log( lang::get( "Extracting files", false) );
                     for($i = 0; $i < $n; $i++) {
                         $path = explode("/", $keys['Contents'][$i]['Key']);
-                        if(isset($path[0]) && isset($path[1]) && !empty($path[1])) {
+                        if(isset($path[1]) && isset($path[2]) && !empty($path[2])) {
                             $result = $client->getObject(array(
                             'Bucket' => $amazon_option['bucket'],
                             'Key'    => $keys['Contents'][$i]['Key'],
-                            'SaveAs' => BACKUP_DIR . '/' . $keys['Contents'][$i]['Key']
+                            'SaveAs' => BACKUP_DIR . '/' . substr($keys['Contents'][$i]['Key'], strlen($amazon_option['prefix'] . '/'))
                             ));
                             main::log(str_replace("%s", $keys['Contents'][$i]['Key'],  lang::get( "Restoring file: %s", false)) );
                         }
                     }
                     main::log( lang::get( "Finished restoring files", false ) );
+                    main::log( lang::get( "Starting database restore", false ) );
+
+                    if (file_exists(BACKUP_DIR . '/' . $this->params['name'] . '/mysqldump.sql')) {
+                        $mysql = $this->incMysql();
+                        $mysql->restore(BACKUP_DIR . '/' . $this->params['name'] . '/mysqldump.sql');
+                        main::remove(BACKUP_DIR . '/' . $this->params['name'] . '/mysqldump.sql');
+                    }
+                    main::log( lang::get( "Finished database restore", false ) );
+
                     $this->local();
                     if (is_dir($dir)) {
                         main::remove($dir);
