@@ -1,0 +1,45 @@
+Start Backup process...
+----------------------------------------------------
+Connecting to MySQL...
+Optimize Database Tables
+Optimize Database Tables was started
+Optimize Table `wp_commentmeta` was successfully
+Optimize Table `wp_comments` was successfully
+Optimize Table `wp_links` was successfully
+Optimize Table `wp_options` was successfully
+Optimize Table `wp_postmeta` was successfully
+Optimize Table `wp_posts` was successfully
+Optimize Table `wp_term_relationships` was successfully
+Optimize Table `wp_term_taxonomy` was successfully
+Optimize Table `wp_terms` was successfully
+Optimize Table `wp_usermeta` was successfully
+Optimize Table `wp_users` was successfully
+Optimize Database Tables was Finished
+MySQL of Dump was started
+Add a table "wp_commentmeta" in the database dump
+Add a table "wp_comments" in the database dump
+Add a table "wp_links" in the database dump
+Add a table "wp_options" in the database dump
+Add a table "wp_postmeta" in the database dump
+Add a table "wp_posts" in the database dump
+Add a table "wp_term_relationships" in the database dump
+Add a table "wp_term_taxonomy" in the database dump
+Add a table "wp_terms" in the database dump
+Add a table "wp_usermeta" in the database dump
+Add a table "wp_users" in the database dump
+MySQL of Dump was finished
+Database Dump was successfully created( 0.39 Mb):wp-content/as3b_backups/localhost_wp_amazon-full-2015_07_22_14_26/mysqldump.sql
+Add files to Backup
+Create part localhost_wp_amazon-full-2015_07_22_14_26-1.zip
+Create part localhost_wp_amazon-full-2015_07_22_14_26-2.zip
+Create part localhost_wp_amazon-full-2015_07_22_14_26-3.zip
+Create part localhost_wp_amazon-full-2015_07_22_14_26-4.zip
+Create part localhost_wp_amazon-full-2015_07_22_14_26-5.zip
+Create part localhost_wp_amazon-full-2015_07_22_14_26-6.zip
+Create part localhost_wp_amazon-full-2015_07_22_14_26-7.zip
+Create part localhost_wp_amazon-full-2015_07_22_14_26-8.zip
+Create part localhost_wp_amazon-full-2015_07_22_14_26-9.zip
+Remove dump Database with folder
+Backup created is finish ( 8614245 )
+Start copy files to Amazon S3
+Error send to Amazon s3: The difference between the request time and the current time is too large.
