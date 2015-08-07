@@ -55,6 +55,10 @@ class backup extends module_as3b {
                     $files_to_zip_size += filesize($files[$i]);
                     $files_to_zip[] = $files[$i];
                 }
+                if(count($files_to_zip) > 0 ) {
+                        $zip->add($files_to_zip, PCLZIP_OPT_REMOVE_PATH, ABSPATH);
+                }
+
                 // delete dump db
                 main::log( lang::get('Removing temporary database dump file', false) );
                 main::remove($this->db_file);
