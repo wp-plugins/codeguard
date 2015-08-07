@@ -71,6 +71,9 @@ You can see our full FAQ at [support.codeguard.com](http://support.codeguard.com
 
 == Changelog == 
 
+= 0.51 =
+* Re-release and many changes.
+
 = 0.50 =
 * Re-release and many changes.
 
