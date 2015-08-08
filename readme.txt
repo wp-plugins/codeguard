@@ -6,7 +6,7 @@ Tested up to: 4.2.4
 Stable tag: trunk
 License: GPLv2
 
-CodeGuard protects your WordPress website with daily automatic backup and monitoring. Automatically fix mistakes or problems by resoring to a previous version.
+CodeGuard protects your WordPress website with daily automatic backup and monitoring. Automatically fix issues by restoring to a prior version.
 
 == Description ==
 
@@ -72,9 +72,6 @@ You can see our full FAQ at [support.codeguard.com](http://support.codeguard.com
 == Changelog == 
 
 = 0.51 =
-* Re-release and many changes.
-
-= 0.50 =
 * Re-release and many changes.
 
 = 0.38 =
