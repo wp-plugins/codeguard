@@ -71,6 +71,9 @@ You can see our full FAQ at [support.codeguard.com](http://support.codeguard.com
 
 == Changelog == 
 
+= 0.52 =
++ Update CodeGuard menu item.
+
 = 0.51 =
 * Updated readme and image assets.
 
