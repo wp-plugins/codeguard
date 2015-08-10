@@ -233,40 +233,15 @@ if (!class_exists('main')) {
         {
             $menu_position = '1.9998887771'; 
             self::includesPlugins();
-            if(checkInstallWpadmPlugins()) {
-                $page = add_menu_page(
-                "read", 
-                'wpadm_plugins', 
-                'wpadm_plugins',
-                plugins_url('/images/cg-logo.png', dirname(__FILE__)),
-                $menu_position     
-                );
-                add_submenu_page(
-                    'wpadm_plugins', 
-                    "CodeGuard",
-                    "CodeGuard",
-                    'read',
-                    'amazon-s3-backup',
-                    array('main', 'backups_view')
-                );
-            } else {
-                $page = add_menu_page(
-                'CodeGuard', 
-                'CodeGuard', 
-                "read", 
-                'amazon-s3-backup', 
+            $page = add_menu_page(
+                'CodeGuard',
+                'CodeGuard',
+                "read",
+                'amazon-s3-backup',
                 array('main', 'backups_view'),
                 plugins_url('/images/cg-logo.png', dirname(__FILE__)),
-                $menu_position     
-                );
-
-                add_submenu_page(
-                'amazon-s3-backup', 
-                'read',
-                'wpadm_plugins',
-                'wpadm_plugins'
-                );
-            }
+                $menu_position
+            );
         }
         public static function remove($dir)
         {

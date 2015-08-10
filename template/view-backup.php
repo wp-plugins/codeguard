@@ -204,7 +204,7 @@
                 </div>
             </div>
             <div id="action-buttons" style="">
-                <div style="float: left; margin-top: 2px; clear: both;">
+                <div style="float: left; margin-top: 20px; clear: both;">
                     <button style="width: 167px; min-width: 167px; max-width: 167px; height: 46px; min-height: 46px; max-height: 46px; color: #fff;" onclick="start_backup('s3')" class="backup_button">Create Backup</button> <br />
                 </div>
                 <div style="clear: both;"></div>
