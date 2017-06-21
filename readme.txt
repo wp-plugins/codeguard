@@ -67,7 +67,7 @@ This section describes how to install and configure the plugin.
 
 == Frequently Asked Questions == 
 
-You can see our full FAQ at [support.codeguard.com](http://support.codeguard.com/customer/portal/topics/216401-wordpress/articles)
+You can see our full FAQ at [support.codeguard.com](https://www.codeguard.com/how-to-get-help/)
 
 == Changelog == 
 
